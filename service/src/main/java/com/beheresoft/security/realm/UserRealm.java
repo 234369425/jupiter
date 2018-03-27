@@ -19,12 +19,17 @@ public class UserRealm extends AuthorizingRealm {
     private UserService userService;
 
     public UserRealm(UserService userService) {
+
         this.userService = userService;
     }
 
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) principalCollection.getPrimaryPrincipal();
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        String loginName = (String) principalCollection.getPrimaryPrincipal();
+        User user = userService.findByLoginName(loginName);
+        if (user != null) {
+            SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+
+        }
         return null;
     }
 

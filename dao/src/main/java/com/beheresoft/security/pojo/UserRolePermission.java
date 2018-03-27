@@ -11,12 +11,16 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public class RoleRight {
+public class UserRolePermission {
 
     @Id
     @GeneratedValue
-    private Long roleRightId;
+    private Long userRoleId;
+
+    private Long userId;
+
     private Long roleId;
-    private Long rightId;
+
+    private Long permissionId;
 
 }

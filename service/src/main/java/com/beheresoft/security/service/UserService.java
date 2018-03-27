@@ -20,5 +20,4 @@ public class UserService {
         return this.userRepository.findOneByLoginName(loginName);
     }
 
-
 }
