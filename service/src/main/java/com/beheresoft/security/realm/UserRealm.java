@@ -19,7 +19,6 @@ public class UserRealm extends AuthorizingRealm {
     private UserService userService;
 
     public UserRealm(UserService userService) {
-
         this.userService = userService;
     }
 
