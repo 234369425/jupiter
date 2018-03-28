@@ -1,5 +1,5 @@
 spring:
-  jpa:
+  jpa :
     show-sql: true
     database: mysql
   datasource:
@@ -7,4 +7,9 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+
+system:
+  password:
+    algorithmName: md5
+    hashIterations: 2
 
