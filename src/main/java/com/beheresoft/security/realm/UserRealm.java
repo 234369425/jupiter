@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by Aladi on 2018/3/24.
+ * @author Aladi
  */
 @Component
 public class UserRealm extends AuthorizingRealm {
@@ -29,6 +30,7 @@ public class UserRealm extends AuthorizingRealm {
         this.permissionService = permissionService;
     }
 
+    @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String loginName = (String) principalCollection.getPrimaryPrincipal();
         User user = userService.findByLoginName(loginName);
@@ -47,6 +49,7 @@ public class UserRealm extends AuthorizingRealm {
         return null;
     }
 
+    @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String loginName = (String) authenticationToken.getPrincipal();
         User user = userService.findByLoginName(loginName);

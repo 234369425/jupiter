@@ -2,17 +2,11 @@ package com.beheresoft.security.service;
 
 import com.beheresoft.security.pojo.*;
 import com.beheresoft.security.repository.*;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Aladi on 2018/3/24.
+ * @author Aladi
  */
 @Service
 public class UserService {
