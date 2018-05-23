@@ -2,12 +2,14 @@ package com.beheresoft.security.service;
 
 import com.beheresoft.security.pojo.*;
 import com.beheresoft.security.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * Created by Aladi on 2018/3/24.
  * @author Aladi
  */
+@Slf4j
 @Service
 public class UserService {
 
