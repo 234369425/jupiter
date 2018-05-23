@@ -1,5 +1,6 @@
 package com.beheresoft.security.service;
 
+import com.beheresoft.security.config.SystemConfig;
 import com.beheresoft.security.pojo.User;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -14,10 +15,11 @@ import org.springframework.stereotype.Component;
 public class PasswordHelper {
 
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
+    private SystemConfig systemConfig;
 
-    private String algorithmName = "md5";
-
-    private int hashIterations = 2;
+    public PasswordHelper(SystemConfig systemConfig) {
+        this.systemConfig = systemConfig;
+    }
 
     public void setRandomNumberGenerator(RandomNumberGenerator randomNumberGenerator) {
         this.randomNumberGenerator = randomNumberGenerator;
@@ -25,8 +27,12 @@ public class PasswordHelper {
 
     public void encryptPassword(User u) {
         u.setSalt(randomNumberGenerator.nextBytes().toHex());
-        u.setPassword(new SimpleHash(algorithmName, u.getPassword(),
-                ByteSource.Util.bytes(u.getCredentialsSalt()), hashIterations).toHex());
+        u.setPassword(hashPassword(u));
+    }
+
+    public String hashPassword(User u) {
+        return new SimpleHash(systemConfig.getAlgorithmName(), u.getPassword(),
+                ByteSource.Util.bytes(u.getCredentialsSalt()), systemConfig.getHashIterations()).toHex();
     }
 
 }

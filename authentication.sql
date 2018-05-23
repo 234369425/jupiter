@@ -60,3 +60,5 @@ CREATE TABLE `user_role_permission` (
   `permission_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`user_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `authentication`.`user` (`user_id`, `login_name`, `password`, `salt`, `name`, `email`, `locked`) VALUES ('-1', 'admin', 'a9c02c7e989e121ee0aefd5f9e44751d', '03a730292cb34378e8b7ed4813ee23da', '系统管理员', '234@q.com', b'0');

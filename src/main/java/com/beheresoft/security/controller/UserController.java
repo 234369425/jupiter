@@ -2,6 +2,7 @@ package com.beheresoft.security.controller;
 
 import com.beheresoft.security.pojo.User;
 import com.beheresoft.security.realm.UserRealm;
+import com.beheresoft.security.service.PasswordHelper;
 import com.beheresoft.security.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
+    private PasswordHelper passwordHelper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordHelper passwordHelper) {
         this.userService = userService;
+        this.passwordHelper = passwordHelper;
     }
 
     @RequestMapping("/login.json")

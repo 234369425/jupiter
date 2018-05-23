@@ -8,12 +8,12 @@ spring:
     show-sql: true
     database: mysql
 system:
-  password:
+  passwordSetting:
     algorithmName: md5
     hashIterations: 2
   filterChain: >
     {
-      "/api/user/login.json": "anon",
+      "/api/user/**": "anon",
       "/static/**": "anon" ,
       "/logout":"logout",
       "/**":"authc"

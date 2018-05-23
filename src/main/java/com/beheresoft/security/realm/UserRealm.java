@@ -3,6 +3,7 @@ package com.beheresoft.security.realm;
 import com.beheresoft.security.pojo.Permission;
 import com.beheresoft.security.pojo.Role;
 import com.beheresoft.security.pojo.User;
+import com.beheresoft.security.service.PasswordHelper;
 import com.beheresoft.security.service.PermissionService;
 import com.beheresoft.security.service.UserService;
 import org.apache.shiro.authc.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by Aladi on 2018/3/24.
+ *
  * @author Aladi
  */
 @Component
@@ -56,7 +58,7 @@ public class UserRealm extends AuthorizingRealm {
         if (user == null) {
             throw new UnknownAccountException();
         }
-        if (user.getLocked()) {
+        if (user.getLocked() == null || user.getLocked()) {
             throw new LockedAccountException();
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getLoginName(),
