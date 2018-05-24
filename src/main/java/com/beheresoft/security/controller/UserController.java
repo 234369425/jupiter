@@ -21,24 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
-    private PasswordHelper passwordHelper;
 
-    public UserController(UserService userService, PasswordHelper passwordHelper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.passwordHelper = passwordHelper;
-    }
-
-    @RequestMapping("/login.json")
-    public Result login(String userName, String password) {
-        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-            return Result.err("empty userName or password");
-        }
-        Subject user = SecurityUtils.getSubject();
-        if (!user.isAuthenticated()) {
-            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-            user.login(token);
-        }
-        return Result.ok();
     }
 
     @RequestMapping("/create.json")

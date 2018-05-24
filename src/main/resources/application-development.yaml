@@ -13,7 +13,7 @@ system:
     hashIterations: 2
   filterChain: >
     {
-      "/api/user/**": "anon",
+      "/api/main/**": "anon",
       "/static/**": "anon" ,
       "/logout":"logout",
       "/**":"authc"
