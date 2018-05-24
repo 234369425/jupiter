@@ -1,6 +1,6 @@
 package com.beheresoft.security.handler;
 
-import com.beheresoft.security.controller.Result;
+import com.beheresoft.security.result.Result;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.http.HttpStatus;

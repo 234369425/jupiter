@@ -1,6 +1,7 @@
 package com.beheresoft.security.controller;
 
 
+import com.beheresoft.security.result.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;

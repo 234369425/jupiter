@@ -1,4 +1,4 @@
-package com.beheresoft.security.controller;
+package com.beheresoft.security.result;
 
 import lombok.Data;
 
