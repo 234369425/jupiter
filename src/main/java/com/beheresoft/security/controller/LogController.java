@@ -29,4 +29,10 @@ public class LogController {
         return Result.ok();
     }
 
+    @RequestMapping("/logout.json")
+    public Result logout() {
+        SecurityUtils.getSubject().logout();
+        return Result.ok();
+    }
+
 }
