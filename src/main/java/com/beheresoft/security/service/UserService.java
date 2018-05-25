@@ -26,6 +26,11 @@ public class UserService {
         return this.userRepository.findOneByLoginName(loginName);
     }
 
+    /**
+     * create User
+     * @param u user
+     * @return user
+     */
     public User create(User u) {
         passwordHelper.encryptPassword(u);
         return userRepository.save(u);
