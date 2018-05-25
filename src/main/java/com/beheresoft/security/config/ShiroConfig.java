@@ -1,5 +1,6 @@
 package com.beheresoft.security.config;
 
+import com.beheresoft.security.cache.SpringCacheManager;
 import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
 import com.beheresoft.security.realm.UserRealm;
 import com.google.gson.Gson;
@@ -30,9 +31,11 @@ import java.util.Set;
 public class ShiroConfig {
 
     private SystemConfig systemConfig;
+    private SpringCacheManager cacheManager;
 
-    public ShiroConfig(SystemConfig systemConfig) {
+    public ShiroConfig(SystemConfig systemConfig, SpringCacheManager cacheManager) {
         this.systemConfig = systemConfig;
+        this.cacheManager = cacheManager;
     }
 
     @Bean
@@ -47,47 +50,7 @@ public class ShiroConfig {
 
     @Bean
     public CacheManager cacheManager() {
-        return new AbstractCacheManager() {
-            @Override
-            protected Cache createCache(String s) throws CacheException {
-                return new Cache() {
-                    @Override
-                    public Object get(Object o) throws CacheException {
-                        return null;
-                    }
-
-                    @Override
-                    public Object put(Object o, Object o2) throws CacheException {
-                        return null;
-                    }
-
-                    @Override
-                    public Object remove(Object o) throws CacheException {
-                        return null;
-                    }
-
-                    @Override
-                    public void clear() throws CacheException {
-
-                    }
-
-                    @Override
-                    public int size() {
-                        return 0;
-                    }
-
-                    @Override
-                    public Set keys() {
-                        return null;
-                    }
-
-                    @Override
-                    public Collection values() {
-                        return null;
-                    }
-                };
-            }
-        };
+        return cacheManager;
     }
 
     @Bean
