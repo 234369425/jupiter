@@ -19,7 +19,7 @@ public class CheckController {
         return Result.ok();
     }
 
-    @RequestMapping("/permission/{perm}")
+    @RequestMapping("/permission/{permission}")
     public Result checkPermissions(@PathVariable("appId") String appId, @PathVariable("permission") String permission) {
         SecurityUtils.getSubject().checkPermission(permission);
         return Result.ok();
