@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://172.168.1.1/authentication?useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/authentication?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: toor
+    password: root
   jpa :
     show-sql: true
     database: mysql
@@ -11,6 +11,8 @@ system:
   passwordSetting:
     algorithmName: md5
     hashIterations: 2
+  session:
+    timeout: 1800  #seconds
   filterChain: >
     {
       "/api/main/**": "anon",

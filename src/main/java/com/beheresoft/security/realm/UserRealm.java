@@ -1,10 +1,8 @@
 package com.beheresoft.security.realm;
 
-import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
 import com.beheresoft.security.pojo.Permission;
 import com.beheresoft.security.pojo.Role;
 import com.beheresoft.security.pojo.User;
-import com.beheresoft.security.service.PasswordHelper;
 import com.beheresoft.security.service.PermissionService;
 import com.beheresoft.security.service.UserService;
 import org.apache.shiro.authc.*;
@@ -31,7 +29,6 @@ public class UserRealm extends AuthorizingRealm {
     public UserRealm(UserService userService, PermissionService permissionService) {
         this.userService = userService;
         this.permissionService = permissionService;
-        //super.setCredentialsMatcher(hashedCredentialsMatcher);
     }
 
     @Override

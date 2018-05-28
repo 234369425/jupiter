@@ -24,4 +24,15 @@ public class SystemConfig {
     private String algorithmName = "md5";
     private int hashIterations = 2;
 
+    private ShiroProperties shiro;
+
+
+    @Getter
+    @Setter
+    public static class ShiroProperties{
+        private String cacheManager;
+        private String credentialsMatcher;
+
+    }
+
 }
