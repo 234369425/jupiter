@@ -18,6 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
+    private String appName;
     private String loginName;
     private String password;
     private String salt;

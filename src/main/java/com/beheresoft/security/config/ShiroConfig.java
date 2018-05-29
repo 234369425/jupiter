@@ -2,30 +2,21 @@ package com.beheresoft.security.config;
 
 import com.beheresoft.security.cache.SpringCacheManager;
 import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
-import com.beheresoft.security.realm.UserRealm;
-import com.beheresoft.security.subject.MultiAppSubjectFactory;
+import com.beheresoft.security.realm.LoginRealm;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.AbstractCacheManager;
-import org.apache.shiro.cache.Cache;
-import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.mgt.SubjectFactory;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Aladi
@@ -70,12 +61,12 @@ public class ShiroConfig {
      * 配置SecurityManager
      * 使用userRealm
      *
-     * @param userRealm                realm
+     * @param login                    realm
      * @param hashedCredentialsMatcher matcher
      * @return SecurityManager
      */
     @Bean
-    public DefaultSecurityManager securityManager(UserRealm userRealm, HashedCredentialsMatcher hashedCredentialsMatcher, MultiAppSubjectFactory appSubjectFactory) {
+    public DefaultSecurityManager securityManager(LoginRealm loginRealm, HashedCredentialsMatcher hashedCredentialsMatcher) {
         DefaultSecurityManager securityManager = new DefaultWebSecurityManager();
         CredentialsMatcher matcher = hashedCredentialsMatcher;
         SystemConfig.ShiroProperties properties = systemConfig.getShiro();
@@ -86,7 +77,7 @@ public class ShiroConfig {
                 matcher = (CredentialsMatcher) o;
             }
         }
-        userRealm.setCredentialsMatcher(matcher);
+        loginRealm.setCredentialsMatcher(matcher);
         CacheManager cacheManager = this.cacheManager;
         //配置cache manager
         if (properties != null && properties.getCacheManager() != null) {
@@ -95,8 +86,8 @@ public class ShiroConfig {
                 cacheManager = (CacheManager) o;
             }
         }
-        securityManager.setSubjectFactory(appSubjectFactory);
-        securityManager.setRealm(userRealm);
+//        securityManager.setSubjectFactory(appSubjectFactory);
+        securityManager.setRealm(loginRealm);
         securityManager.setCacheManager(cacheManager);
         return securityManager;
     }

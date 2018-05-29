@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Aladi
  */
 @RestController
-@RequestMapping("/api/check/{appId}")
+@RequestMapping("/api/check/")
 public class CheckController {
 
     @RequestMapping("/role/{role}")
-    public Result check(@PathVariable("appId") String appId, @PathVariable("role") String role) {
+    public Result check( @PathVariable("role") String role) {
         SecurityUtils.getSubject().checkRole(role);
         return Result.ok();
     }
 
     @RequestMapping("/permission/{permission}")
-    public Result checkPermissions(@PathVariable("appId") String appId, @PathVariable("permission") String permission) {
+    public Result checkPermissions( @PathVariable("permission") String permission) {
         SecurityUtils.getSubject().checkPermission(permission);
         return Result.ok();
     }

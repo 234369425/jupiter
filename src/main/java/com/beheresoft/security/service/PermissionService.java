@@ -34,9 +34,9 @@ public class PermissionService {
         this.permissionRepository = permissionRepository;
     }
 
-    public List<Role> findUserRoles(User user) {
+    public List<Role> findUserRoles(Long userId) {
         UserRolePermission userRolePermission = new UserRolePermission();
-        userRolePermission.setUserId(user.getUserId());
+        userRolePermission.setUserId(userId);
         Example<UserRolePermission> example = Example.of(userRolePermission);
         List<UserRolePermission> rolePermissions = userRolePermissionRepository.findAll(example);
         Set<Long> roleIds = new HashSet<>();
@@ -48,9 +48,9 @@ public class PermissionService {
         return roleRepository.findAllById(roleIds);
     }
 
-    public List<Permission> findUserPermission(User user) {
+    public List<Permission> findUserPermission(Long userId) {
         UserRolePermission userRolePermission = new UserRolePermission();
-        userRolePermission.setUserId(user.getUserId());
+        userRolePermission.setUserId(userId);
         Example<UserRolePermission> example = Example.of(userRolePermission);
         List<UserRolePermission> userRolePermissions = userRolePermissionRepository.findAll(example);
 

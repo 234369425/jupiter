@@ -5,6 +5,7 @@ import com.beheresoft.security.pojo.Role;
 import com.beheresoft.security.pojo.User;
 import com.beheresoft.security.service.PermissionService;
 import com.beheresoft.security.service.UserService;
+import com.beheresoft.security.token.LoginToken;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -13,6 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,46 +23,49 @@ import java.util.List;
  * @author Aladi
  */
 @Component
-public class UserRealm extends AuthorizingRealm {
+public class LoginRealm extends AuthorizingRealm {
 
     private UserService userService;
     private PermissionService permissionService;
 
-    public UserRealm(UserService userService, PermissionService permissionService) {
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token != null && token instanceof LoginToken;
+    }
+
+    public LoginRealm(UserService userService, PermissionService permissionService) {
         this.userService = userService;
         this.permissionService = permissionService;
     }
 
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String loginName = (String) principalCollection.getPrimaryPrincipal();
-        User user = userService.findByLoginName(loginName);
-        if (user != null) {
-            SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-            List<Role> roles = permissionService.findUserRoles(user);
-            for (Role role : roles) {
-                authorizationInfo.addRole(role.getName());
-            }
-            List<Permission> permissions = permissionService.findUserPermission(user);
-            for (Permission permission : permissions) {
-                authorizationInfo.addStringPermission(permission.getKey());
-            }
-            return authorizationInfo;
+        Long userId = Long.parseLong(principalCollection.toString());
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        List<Role> roles = permissionService.findUserRoles(userId);
+        for (Role role : roles) {
+            authorizationInfo.addRole(role.getName());
         }
-        return null;
+        List<Permission> permissions = permissionService.findUserPermission(userId);
+        for (Permission permission : permissions) {
+            authorizationInfo.addStringPermission(permission.getKey());
+        }
+        return authorizationInfo;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String loginName = (String) authenticationToken.getPrincipal();
-        User user = userService.findByLoginName(loginName);
+        LoginToken token = (LoginToken) authenticationToken;
+        User user = userService.findUser(token.getAppId(), token.getUsername());
         if (user == null) {
             throw new UnknownAccountException();
         }
         if (user.getLocked() == null || user.getLocked()) {
             throw new LockedAccountException();
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user.getLoginName(),
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+                user.getUserId(),
                 user.getPassword(),
                 ByteSource.Util.bytes(user.getCredentialsSalt()),
                 getName());

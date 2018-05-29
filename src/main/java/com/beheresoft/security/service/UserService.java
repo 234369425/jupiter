@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by Aladi on 2018/3/24.
+ *
  * @author Aladi
  */
 @Slf4j
@@ -22,12 +23,13 @@ public class UserService {
         this.passwordHelper = passwordHelper;
     }
 
-    public User findByLoginName(String loginName) {
-        return this.userRepository.findOneByLoginName(loginName);
+    public User findUser(String appName, String loginName) {
+        return this.userRepository.findUserByAppNameAndLoginName(appName, loginName);
     }
 
     /**
      * create User
+     *
      * @param u user
      * @return user
      */
@@ -36,7 +38,7 @@ public class UserService {
         return userRepository.save(u);
     }
 
-    public void lock(User u){
+    public void lock(User u) {
         User findUser = userRepository.getOne(u.getUserId());
         findUser.setLocked(u.getLocked());
         userRepository.save(findUser);
