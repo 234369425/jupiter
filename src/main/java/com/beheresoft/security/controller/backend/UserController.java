@@ -3,6 +3,9 @@ package com.beheresoft.security.controller.backend;
 import com.beheresoft.security.pojo.User;
 import com.beheresoft.security.result.Result;
 import com.beheresoft.security.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +21,15 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping("/list.json")
+    public Result list(Pageable p) {
+        Subject subject = SecurityUtils.getSubject();
+        User u = (User) subject.getPrincipal();
+        User probe = new User();
+        probe.setAppName(u.getAppName());
+        return Result.ok(userService.list(probe, p));
     }
 
     @RequestMapping("/create.json")

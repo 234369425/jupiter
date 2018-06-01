@@ -41,13 +41,13 @@ public class LoginRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        Long userId = Long.parseLong(principalCollection.toString());
+        User user = (User) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        List<Role> roles = permissionService.findUserRoles(userId);
+        List<Role> roles = permissionService.findUserRoles(user.getUserId());
         for (Role role : roles) {
             authorizationInfo.addRole(role.getName());
         }
-        List<Permission> permissions = permissionService.findUserPermission(userId);
+        List<Permission> permissions = permissionService.findUserPermission(user.getUserId());
         for (Permission permission : permissions) {
             authorizationInfo.addStringPermission(permission.getKey());
         }
@@ -64,8 +64,11 @@ public class LoginRealm extends AuthorizingRealm {
         if (user.getLocked() == null || user.getLocked()) {
             throw new LockedAccountException();
         }
+        User principal = new User();
+        principal.setUserId(user.getUserId());
+        principal.setAppName(user.getAppName());
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-                user.getUserId(),
+                principal,
                 user.getPassword(),
                 ByteSource.Util.bytes(user.getCredentialsSalt()),
                 getName());

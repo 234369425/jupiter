@@ -4,6 +4,8 @@ import com.beheresoft.security.pojo.*;
 import com.beheresoft.security.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class UserService {
         this.passwordHelper = passwordHelper;
     }
 
-    public List<User> list(User u){
-        return userRepository.findAll(Example.of(u));
+    public Page<User> list(User u, Pageable p) {
+        return userRepository.findAll(Example.of(u), p);
     }
 
     public User findUser(String appName, String loginName) {
