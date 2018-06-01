@@ -14,7 +14,9 @@ public class ViolationExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public Result onException(ConstraintViolationException e) {
+
         return Result.err(e.getLocalizedMessage());
+
     }
 
 }
