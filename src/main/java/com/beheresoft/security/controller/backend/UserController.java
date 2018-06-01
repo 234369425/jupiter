@@ -4,6 +4,9 @@ import com.beheresoft.security.pojo.User;
 import com.beheresoft.security.result.Result;
 import com.beheresoft.security.service.UserService;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @RequiresRoles(value = {"superAdmin", "admin"}, logical = Logical.OR)
     @RequestMapping("/list.json")
     public Result list(Pageable p) {
         Subject subject = SecurityUtils.getSubject();
