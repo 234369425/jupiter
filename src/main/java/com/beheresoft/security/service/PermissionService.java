@@ -72,7 +72,7 @@ public class PermissionService {
         }
 
         for (RoleResource roleResource : roleResources) {
-            permissionIds.add(roleResource.getPermissionId());
+            permissionIds.add(roleResource.getResourceId());
         }
 
         return permissionRepository.findAllById(permissionIds);
