@@ -14,7 +14,7 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public class UserRolePermission {
+public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,5 @@ public class UserRolePermission {
     private Long userId;
 
     private Long roleId;
-
-    private Long permissionId;
 
 }
