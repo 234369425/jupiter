@@ -1,5 +1,6 @@
 package com.beheresoft.security.pojo;
 
+import com.beheresoft.security.enums.ResourceType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,13 +17,17 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class Permission {
+public class Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long permissionId;
-    private String key;
+    private Long resourceId;
+    private Long parentId;
+    private ResourceType type;
+    private String appName;
+    private String permKey;
     private String name;
     private String uri;
+    private Boolean available = Boolean.FALSE;
 
 }

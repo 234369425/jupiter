@@ -1,13 +1,12 @@
 package com.beheresoft.security.repository;
 
-import com.beheresoft.security.pojo.Permission;
+import com.beheresoft.security.pojo.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * Created by Aladi on 2018/3/12.
  * @author Aladi
  */
-public interface PermissionRepository extends JpaRepository<Permission, Long> {
+public interface PermissionRepository extends JpaRepository<Resource, Long> {
 
 }

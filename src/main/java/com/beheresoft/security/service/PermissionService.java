@@ -48,7 +48,7 @@ public class PermissionService {
         return roleRepository.findAllById(roleIds);
     }
 
-    public List<Permission> findUserPermission(Long userId) {
+    public List<Resource> findUserPermission(Long userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
         Example<UserRole> example = Example.of(userRole);

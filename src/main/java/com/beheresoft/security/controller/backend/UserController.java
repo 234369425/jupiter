@@ -36,12 +36,14 @@ public class UserController {
         return Result.ok(userService.list(probe, p));
     }
 
+    @RequiresRoles("admin")
     @RequestMapping("/create.json")
     public Result create(User u) {
         this.userService.create(u);
         return Result.ok();
     }
 
+    @RequiresRoles("admin")
     @RequestMapping("/lock.json")
     public Result lock(User u) {
         if (u.getLocked() == null || u.getUserId() == null) {

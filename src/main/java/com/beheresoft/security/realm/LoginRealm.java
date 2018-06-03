@@ -1,6 +1,6 @@
 package com.beheresoft.security.realm;
 
-import com.beheresoft.security.pojo.Permission;
+import com.beheresoft.security.pojo.Resource;
 import com.beheresoft.security.pojo.Role;
 import com.beheresoft.security.pojo.User;
 import com.beheresoft.security.service.PermissionService;
@@ -14,7 +14,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -47,8 +46,8 @@ public class LoginRealm extends AuthorizingRealm {
         for (Role role : roles) {
             authorizationInfo.addRole(role.getName());
         }
-        List<Permission> permissions = permissionService.findUserPermission(user.getUserId());
-        for (Permission permission : permissions) {
+        List<Resource> permissions = permissionService.findUserPermission(user.getUserId());
+        for (Resource permission : permissions) {
             authorizationInfo.addStringPermission(permission.getKey());
         }
         return authorizationInfo;
