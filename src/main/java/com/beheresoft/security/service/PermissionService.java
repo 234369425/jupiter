@@ -63,16 +63,16 @@ public class PermissionService {
             }
         }
 
-        List<RolePermission> rolePermissions = new ArrayList<>();
+        List<RoleResource> roleResources = new ArrayList<>();
 
         for (Long roleId : roleIds) {
-            RolePermission rolePermission = new RolePermission();
-            rolePermission.setRoleId(roleId);
-            rolePermissions.addAll(rolePermissionRepository.findAll(Example.of(rolePermission)));
+            RoleResource roleResource = new RoleResource();
+            roleResource.setRoleId(roleId);
+            roleResources.addAll(rolePermissionRepository.findAll(Example.of(roleResource)));
         }
 
-        for (RolePermission rolePermission : rolePermissions) {
-            permissionIds.add(rolePermission.getPermissionId());
+        for (RoleResource roleResource : roleResources) {
+            permissionIds.add(roleResource.getPermissionId());
         }
 
         return permissionRepository.findAllById(permissionIds);

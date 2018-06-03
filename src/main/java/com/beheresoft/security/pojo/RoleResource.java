@@ -14,12 +14,12 @@ import javax.persistence.Id;
  */
 @Entity
 @Data
-public class RolePermission {
+public class RoleResource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rolePermissionId;
+    private Long roleResourceId;
     private Long roleId;
-    private Long permissionId;
+    private Long resourceId;
 
 }
