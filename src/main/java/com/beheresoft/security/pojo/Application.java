@@ -10,6 +10,7 @@ import javax.persistence.Id;
 
 /**
  * @author Aladi
+ *
  */
 @Entity
 @Getter
