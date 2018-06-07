@@ -2,6 +2,7 @@ package com.beheresoft.security.config;
 
 import com.beheresoft.security.cache.SpringCacheManager;
 import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
+import com.beheresoft.security.filter.CustomFormAuthenticationFilter;
 import com.beheresoft.security.realm.LoginRealm;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,9 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilters(SecurityManager securityManager, Gson gson) {
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
         filterFactoryBean.setSecurityManager(securityManager);
-        filterFactoryBean.setFilterChainDefinitionMap(gson.fromJson(systemConfig.getFilterChain(), Map.class));
+        Map<String, String> filterChain = gson.fromJson(systemConfig.getFilterChain(), Map.class);
+        filterFactoryBean.setFilterChainDefinitionMap(filterChain);
+        filterFactoryBean.getFilters().put("authc", new CustomFormAuthenticationFilter());
         filterFactoryBean.setLoginUrl(systemConfig.getLoginUrl());
         filterFactoryBean.setUnauthorizedUrl(systemConfig.getUnauthorizedUrl());
         return filterFactoryBean;

@@ -2,13 +2,12 @@ package com.beheresoft.security.service;
 
 import com.beheresoft.security.pojo.*;
 import com.beheresoft.security.repository.*;
+import com.beheresoft.security.util.PasswordUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by Aladi on 2018/3/24.
@@ -20,12 +19,12 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
-    private PasswordHelper passwordHelper;
+    private PasswordUtils password;
 
     public UserService(UserRepository userRepository,
-                       PasswordHelper passwordHelper) {
+                       PasswordUtils password) {
         this.userRepository = userRepository;
-        this.passwordHelper = passwordHelper;
+        this.password = password;
     }
 
     public Page<User> list(User u, Pageable p) {
@@ -43,7 +42,7 @@ public class UserService {
      * @return user
      */
     public User create(User u) {
-        passwordHelper.encryptPassword(u);
+        password.encryptPassword(u);
         return userRepository.save(u);
     }
 

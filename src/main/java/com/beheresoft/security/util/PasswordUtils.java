@@ -1,4 +1,4 @@
-package com.beheresoft.security.service;
+package com.beheresoft.security.util;
 
 import com.beheresoft.security.config.SystemConfig;
 import com.beheresoft.security.pojo.User;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  * @date 2018-06-06 23:30:07
  */
 @Component
-public class PasswordHelper {
+public class PasswordUtils {
 
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
     private SystemConfig systemConfig;
 
-    public PasswordHelper(SystemConfig systemConfig) {
+    public PasswordUtils(SystemConfig systemConfig) {
         this.systemConfig = systemConfig;
     }
 

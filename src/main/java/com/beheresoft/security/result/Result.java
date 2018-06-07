@@ -34,4 +34,8 @@ public class Result {
         return new Result(1, message, null);
     }
 
+    public static Result err(int code, String message) {
+        return new Result(code, message, null);
+    }
+
 }
