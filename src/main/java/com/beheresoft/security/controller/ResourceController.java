@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/resource")
 public class ResourceController {
 
+    public ResourceController(){
+
+    }
+
     @RequestMapping("/load.json ")
     public Result load() {
         String appName = AppUtils.getCurrentUserAppName();

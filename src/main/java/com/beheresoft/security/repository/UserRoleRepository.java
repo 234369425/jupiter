@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Created by Aladi on 2018/3/12.
  * @author Aladi
  */
-public interface UserRolePermissionRepository extends JpaRepository<UserRole, Long> {
+public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
 }

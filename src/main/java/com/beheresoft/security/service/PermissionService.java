@@ -1,10 +1,10 @@
 package com.beheresoft.security.service;
 
 import com.beheresoft.security.pojo.*;
-import com.beheresoft.security.repository.PermissionRepository;
-import com.beheresoft.security.repository.RolePermissionRepository;
+import com.beheresoft.security.repository.ResourceRepository;
+import com.beheresoft.security.repository.RoleResourceRepository;
 import com.beheresoft.security.repository.RoleRepository;
-import com.beheresoft.security.repository.UserRolePermissionRepository;
+import com.beheresoft.security.repository.UserRoleRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -20,26 +20,25 @@ import java.util.Set;
 @Service
 public class PermissionService {
 
-    private UserRolePermissionRepository userRolePermissionRepository;
     private RoleRepository roleRepository;
-    private RolePermissionRepository rolePermissionRepository;
-    private PermissionRepository permissionRepository;
+    private UserRoleRepository userRoleRepository;
+    private RoleResourceRepository roleResourceRepository;
+    private ResourceRepository resourceRepository;
 
     public PermissionService(RoleRepository roleRepository,
-                             RolePermissionRepository rolePermissionRepository,
-                             PermissionRepository permissionRepository,
-                             UserRolePermissionRepository userRolePermissionRepository) {
+                             RoleResourceRepository roleResourceRepository,
+                             UserRoleRepository userRoleRepository,
+                             ResourceRepository resourceRepository) {
         this.roleRepository = roleRepository;
-        this.userRolePermissionRepository = userRolePermissionRepository;
-        this.rolePermissionRepository = rolePermissionRepository;
-        this.permissionRepository = permissionRepository;
+        this.roleResourceRepository = roleResourceRepository;
+        this.resourceRepository = resourceRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     public List<Role> findUserRoles(Long userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
-        Example<UserRole> example = Example.of(userRole);
-        List<UserRole> rolePermissions = userRolePermissionRepository.findAll(example);
+        List<UserRole> rolePermissions = userRoleRepository.findAll(Example.of(userRole));
         Set<Long> roleIds = new HashSet<>();
         for (UserRole u : rolePermissions) {
             if (u.getRoleId() != null) {
@@ -49,14 +48,14 @@ public class PermissionService {
         return roleRepository.findAllById(roleIds);
     }
 
-    public List<Resource> findUserPermission(Long userId) {
+    public List<Resource> findUserResource(Long userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
         Example<UserRole> example = Example.of(userRole);
-        List<UserRole> userRoles = userRolePermissionRepository.findAll(example);
+        List<UserRole> userRoles = userRoleRepository.findAll(example);
 
         Set<Long> roleIds = new HashSet<>();
-        Set<Long> permissionIds = new HashSet<>();
+        Set<Long> resourceIds = new HashSet<>();
 
         for (UserRole u : userRoles) {
             if (u.getRoleId() != null) {
@@ -69,14 +68,14 @@ public class PermissionService {
         for (Long roleId : roleIds) {
             RoleResource roleResource = new RoleResource();
             roleResource.setRoleId(roleId);
-            roleResources.addAll(rolePermissionRepository.findAll(Example.of(roleResource)));
+            roleResources.addAll(roleResourceRepository.findAll(Example.of(roleResource)));
         }
 
         for (RoleResource roleResource : roleResources) {
-            permissionIds.add(roleResource.getResourceId());
+            resourceIds.add(roleResource.getResourceId());
         }
 
-        return permissionRepository.findAllById(permissionIds);
+        return resourceRepository.findAllById(resourceIds);
 
     }
 }

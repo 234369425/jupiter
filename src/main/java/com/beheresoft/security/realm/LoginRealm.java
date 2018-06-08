@@ -46,7 +46,7 @@ public class LoginRealm extends AuthorizingRealm {
         for (Role role : roles) {
             authorizationInfo.addRole(role.getName());
         }
-        List<Resource> permissions = permissionService.findUserPermission(user.getUserId());
+        List<Resource> permissions = permissionService.findUserResource(user.getUserId());
         for (Resource permission : permissions) {
             if (permission.getPermKey() == null) {
                 continue;
