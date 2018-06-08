@@ -10,10 +10,18 @@ import org.apache.shiro.subject.Subject;
  */
 public class AppUtils {
 
-    public static String getCurrentUserAppName(){
+    public static String getCurrentUserAppName() {
         Subject subject = SecurityUtils.getSubject();
         User u = (User) subject.getPrincipal();
         return u.getAppName();
+    }
+
+    public static Long getCurrentUserId() {
+        return ((User) SecurityUtils.getSubject()).getUserId();
+    }
+
+    public static User getCurrentUser() {
+        return (User) SecurityUtils.getSubject();
     }
 
 }

@@ -18,17 +18,17 @@ import java.util.Set;
  * @date 2018-06-06 23:31:26
  */
 @Service
-public class PermissionService {
+public class ResourceService {
 
     private RoleRepository roleRepository;
     private UserRoleRepository userRoleRepository;
     private RoleResourceRepository roleResourceRepository;
     private ResourceRepository resourceRepository;
 
-    public PermissionService(RoleRepository roleRepository,
-                             RoleResourceRepository roleResourceRepository,
-                             UserRoleRepository userRoleRepository,
-                             ResourceRepository resourceRepository) {
+    public ResourceService(RoleRepository roleRepository,
+                           RoleResourceRepository roleResourceRepository,
+                           UserRoleRepository userRoleRepository,
+                           ResourceRepository resourceRepository) {
         this.roleRepository = roleRepository;
         this.roleResourceRepository = roleResourceRepository;
         this.resourceRepository = resourceRepository;

@@ -3,7 +3,7 @@ package com.beheresoft.security.realm;
 import com.beheresoft.security.pojo.Resource;
 import com.beheresoft.security.pojo.Role;
 import com.beheresoft.security.pojo.User;
-import com.beheresoft.security.service.PermissionService;
+import com.beheresoft.security.service.ResourceService;
 import com.beheresoft.security.service.UserService;
 import com.beheresoft.security.token.LoginToken;
 import org.apache.shiro.authc.*;
@@ -25,16 +25,16 @@ import java.util.List;
 public class LoginRealm extends AuthorizingRealm {
 
     private UserService userService;
-    private PermissionService permissionService;
+    private ResourceService resourceService;
 
     @Override
     public boolean supports(AuthenticationToken token) {
         return token != null && token instanceof LoginToken;
     }
 
-    public LoginRealm(UserService userService, PermissionService permissionService) {
+    public LoginRealm(UserService userService, ResourceService resourceService) {
         this.userService = userService;
-        this.permissionService = permissionService;
+        this.resourceService = resourceService;
     }
 
 
@@ -42,11 +42,11 @@ public class LoginRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         User user = (User) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        List<Role> roles = permissionService.findUserRoles(user.getUserId());
+        List<Role> roles = resourceService.findUserRoles(user.getUserId());
         for (Role role : roles) {
             authorizationInfo.addRole(role.getName());
         }
-        List<Resource> permissions = permissionService.findUserResource(user.getUserId());
+        List<Resource> permissions = resourceService.findUserResource(user.getUserId());
         for (Resource permission : permissions) {
             if (permission.getPermKey() == null) {
                 continue;
