@@ -27,6 +27,7 @@ public class Resource {
     private String appName;
     private String permKey;
     private String name;
+    private String icon;
     private String uri;
     private Boolean available = Boolean.FALSE;
 

@@ -104,6 +104,12 @@ public class ResourceTreeUtils {
         return root;
     }
 
+    /**
+     * build resource tree
+     *
+     * @param ref root node reference
+     * @param map key parent node id, value resources
+     */
     private void buildTree(TreeNode ref, Map<Long, List<TreeNode>> map) {
         List<TreeNode> children = map.get(ref.getId());
         if (children == null && ref.getId() != Long.MIN_VALUE) {
