@@ -83,6 +83,7 @@ public class ResourceTreeUtils {
         final Map<Long, List<TreeNode>> map = new HashMap<>(5);
         resources.forEach(resource -> {
             switch (resource.getType()) {
+                case ROOT:
                 case FOLDER:
                 case MENU:
                     if (resource.getParentId() == null) {

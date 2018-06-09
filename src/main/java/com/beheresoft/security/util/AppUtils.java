@@ -17,7 +17,7 @@ public class AppUtils {
     }
 
     public static Long getCurrentUserId() {
-        return ((User) SecurityUtils.getSubject()).getUserId();
+        return ((User) SecurityUtils.getSubject().getPrincipal()).getUserId();
     }
 
     public static User getCurrentUser() {

@@ -38,9 +38,9 @@ public class ResourceService {
     public List<Role> findUserRoles(Long userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userId);
-        List<UserRole> rolePermissions = userRoleRepository.findAll(Example.of(userRole));
+        List<UserRole> userRoles = userRoleRepository.findAll(Example.of(userRole));
         Set<Long> roleIds = new HashSet<>();
-        for (UserRole u : rolePermissions) {
+        for (UserRole u : userRoles) {
             if (u.getRoleId() != null) {
                 roleIds.add(u.getRoleId());
             }
@@ -49,33 +49,8 @@ public class ResourceService {
     }
 
     public List<Resource> findUserResource(Long userId) {
-        UserRole userRole = new UserRole();
-        userRole.setUserId(userId);
-        Example<UserRole> example = Example.of(userRole);
-        List<UserRole> userRoles = userRoleRepository.findAll(example);
 
-        Set<Long> roleIds = new HashSet<>();
-        Set<Long> resourceIds = new HashSet<>();
-
-        for (UserRole u : userRoles) {
-            if (u.getRoleId() != null) {
-                roleIds.add(u.getRoleId());
-            }
-        }
-
-        List<RoleResource> roleResources = new ArrayList<>();
-
-        for (Long roleId : roleIds) {
-            RoleResource roleResource = new RoleResource();
-            roleResource.setRoleId(roleId);
-            roleResources.addAll(roleResourceRepository.findAll(Example.of(roleResource)));
-        }
-
-        for (RoleResource roleResource : roleResources) {
-            resourceIds.add(roleResource.getResourceId());
-        }
-
-        return resourceRepository.findAllById(resourceIds);
+        return resourceRepository.listUserResources(userId);
 
     }
 }

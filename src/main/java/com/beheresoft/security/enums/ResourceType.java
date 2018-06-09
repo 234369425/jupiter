@@ -6,19 +6,19 @@ package com.beheresoft.security.enums;
  */
 public enum ResourceType {
     /**
-     * 按钮
+     * 根
      */
-    BUTTON,
+    ROOT,
     /**
      * 文件夹
      */
     FOLDER,
     /**
-     * 根
-     */
-    ROOT,
-    /**
      * 菜单
      */
-    MENU
+    MENU,
+    /**
+     * 按钮
+     */
+    BUTTON
 }
