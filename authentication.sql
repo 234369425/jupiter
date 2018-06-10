@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2018-06-07 23:02:49
+Date: 2018-06-10 22:55:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,14 +42,18 @@ CREATE TABLE `resource` (
   `app_name` varchar(255) DEFAULT NULL,
   `type` tinyint(255) DEFAULT NULL,
   `perm_key` varchar(255) DEFAULT NULL,
+  `icon` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `uri` varchar(255) DEFAULT NULL,
+  `available` bit(1) DEFAULT NULL,
   PRIMARY KEY (`resource_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
+INSERT INTO `resource` VALUES ('1', null, 'jupiter', '0', 'root', null, '根', null, null);
+INSERT INTO `resource` VALUES ('2', '1', 'jupiter', '1', 'test', null, '目录', null, null);
 
 -- ----------------------------
 -- Table structure for role
@@ -77,11 +81,13 @@ CREATE TABLE `role_resource` (
   `role_id` bigint(20) DEFAULT NULL,
   `resource_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`role_resource_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role_resource
 -- ----------------------------
+INSERT INTO `role_resource` VALUES ('1', '1', '1');
+INSERT INTO `role_resource` VALUES ('2', '1', '2');
 
 -- ----------------------------
 -- Table structure for user
@@ -95,6 +101,7 @@ CREATE TABLE `user` (
   `salt` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `registered` datetime DEFAULT NULL,
   `locked` bit(1) DEFAULT b'0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -102,7 +109,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('-1', 'jupiter', 'admin', 'a9c02c7e989e121ee0aefd5f9e44751d', '03a730292cb34378e8b7ed4813ee23da', '系统管理员', '234@q.com', '\0');
+INSERT INTO `user` VALUES ('-1', 'jupiter', 'admin', 'a9c02c7e989e121ee0aefd5f9e44751d', '03a730292cb34378e8b7ed4813ee23da', '系统管理员', '234@q.com', null, '\0');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -110,11 +117,12 @@ INSERT INTO `user` VALUES ('-1', 'jupiter', 'admin', 'a9c02c7e989e121ee0aefd5f9e
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `user_role_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) DEFAULT NULL,
-  `role_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL,
   PRIMARY KEY (`user_role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
+INSERT INTO `user_role` VALUES ('1', '-1', '1');
