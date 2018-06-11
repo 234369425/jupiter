@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://172.168.1.1:3306/authentication?useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/authentication?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: toor
+    password: root
   jpa :
     show-sql: true
     database: mysql
@@ -12,6 +12,8 @@ system:
     algorithmName: md5
     hashIterations: 2
   session:
+    cacheKeyPrefix: JUPITER:
+    urlSessionId: false
     timeout: 1800  #seconds
   filterChain: >
     {
@@ -22,4 +24,10 @@ system:
     }
   loginUrl: /login
   unauthorizedUrl: /403
+redission:
+  address: "redis://127.0.0.1:6379"
+  timeout: 10
+  poolSize: 5
+  minIdleSize: 3
+  database: 6
 

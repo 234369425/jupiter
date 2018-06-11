@@ -1,5 +1,6 @@
 package com.beheresoft.security.config;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class SystemConfig {
     private int hashIterations = 2;
 
     private ShiroProperties shiro;
+    private Session session;
 
 
     @Getter
@@ -32,7 +34,14 @@ public class SystemConfig {
     public static class ShiroProperties{
         private String cacheManager;
         private String credentialsMatcher;
+    }
 
+    @Getter
+    @Setter
+    public static class Session{
+        private String cacheKeyPrefix = "JUPITER:";
+        private Boolean urlSessionId = Boolean.FALSE;
+        private long timeout = 60 * 30;
     }
 
 }

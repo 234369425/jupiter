@@ -13,6 +13,8 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,12 +66,12 @@ public class ShiroConfig {
      * 配置SecurityManager
      * 使用userRealm
      *
-     * @param login                    realm
+     * @param loginRealm               realm
      * @param hashedCredentialsMatcher matcher
      * @return SecurityManager
      */
     @Bean
-    public DefaultSecurityManager securityManager(LoginRealm loginRealm, HashedCredentialsMatcher hashedCredentialsMatcher) {
+    public DefaultSecurityManager securityManager(LoginRealm loginRealm, WebSessionManager webSessionManager, HashedCredentialsMatcher hashedCredentialsMatcher) {
         DefaultSecurityManager securityManager = new DefaultWebSecurityManager();
         CredentialsMatcher matcher = hashedCredentialsMatcher;
         SystemConfig.ShiroProperties properties = systemConfig.getShiro();
@@ -92,7 +94,16 @@ public class ShiroConfig {
 //        securityManager.setSubjectFactory(appSubjectFactory);
         securityManager.setRealm(loginRealm);
         securityManager.setCacheManager(cacheManager);
+        securityManager.setSessionManager(webSessionManager);
         return securityManager;
+    }
+
+    @Bean
+    public WebSessionManager webSessionManager() {
+        DefaultWebSessionManager webSessionManager = new DefaultWebSessionManager();
+        webSessionManager.setSessionIdUrlRewritingEnabled(systemConfig.getSession().getUrlSessionId());
+        webSessionManager.setGlobalSessionTimeout(systemConfig.getSession().getTimeout());
+        return webSessionManager;
     }
 
     /**
