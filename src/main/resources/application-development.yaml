@@ -12,9 +12,11 @@ system:
     algorithmName: md5
     hashIterations: 2
   session:
-    cacheKeyPrefix: JUPITER:
+    cookieName: JUPITER
+    headerName: JUPITER
+    cacheKeyPrefix: JUPITER
     urlSessionId: false
-    timeout: 1800  #seconds
+    timeout: 1800000  #mills
   filterChain: >
     {
       "/api/main/**": "anon",
@@ -24,9 +26,10 @@ system:
     }
   loginUrl: /login
   unauthorizedUrl: /403
-redission:
+redisson:
+  enable: true
   address: "redis://127.0.0.1:6379"
-  timeout: 10
+  timeout: 1000
   poolSize: 5
   minIdleSize: 3
   database: 6

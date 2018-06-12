@@ -10,8 +10,8 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.security.SignatureException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisSessionDao extends AbstractSessionDAO {
 
-    private final RMapCache<String, Session> sessionCache;
+    private final RMapCache<Serializable, Session> sessionCache;
     private final long sessionTimeout;
 
     public RedisSessionDao(RedissonClient redissonClient, SystemConfig systemConfig) {
@@ -42,7 +42,17 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override
     protected Session doReadSession(Serializable serializable) {
-        return sessionCache.get(serializable);
+        Session session = sessionCache.get(serializable);
+        if (session != null) {
+            this.assignSessionId(session, serializable);
+            return session;
+        }
+        return null;
+    }
+
+    @Override
+    protected void assignSessionId(Session session, Serializable serializable) {
+        ((CustomSession) session).setId(serializable);
     }
 
     @Override
@@ -52,7 +62,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override
     public void delete(Session session) {
-        this.sessionCache.removeAsync(session.getId().toString());
+        this.sessionCache.removeAsync(session.getId());
     }
 
     @Override
@@ -65,7 +75,22 @@ public class RedisSessionDao extends AbstractSessionDAO {
             log.error("{} can not get session id!", session);
             return;
         }
-        sessionCache.put(session.getId().toString(), session, sessionTimeout, TimeUnit.MILLISECONDS);
+        Session oldSession = sessionCache.get(session.getId());
+        if (oldSession != null) {
+            Collection<Object> keys = oldSession.getAttributeKeys();
+            Collection<Object> newKeys = session.getAttributeKeys();
+            if (!keys.isEmpty() || !newKeys.isEmpty()) {
+                Iterator<Object> iterator = keys.iterator();
+                while (iterator.hasNext()) {
+                    Object key = iterator.next();
+                    if (!newKeys.contains(key)) {
+                        session.setAttribute(key, oldSession.getAttribute(key));
+                    }
+                }
+            }
+        }
+
+        sessionCache.put(session.getId(), session, sessionTimeout, TimeUnit.MILLISECONDS);
     }
 
 }

@@ -4,6 +4,8 @@ import com.beheresoft.security.cache.SpringCacheManager;
 import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
 import com.beheresoft.security.filter.CustomFormAuthenticationFilter;
 import com.beheresoft.security.realm.LoginRealm;
+import com.beheresoft.security.session.CustomWebSessionFactory;
+import com.beheresoft.security.session.CustomWebSessionManager;
 import com.beheresoft.security.session.RedisSessionDao;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author Aladi
@@ -72,10 +75,13 @@ public class ShiroConfig {
      * @return SecurityManager
      */
     @Bean
-    public DefaultSecurityManager securityManager(LoginRealm loginRealm, WebSessionManager webSessionManager, HashedCredentialsMatcher hashedCredentialsMatcher) {
+    public DefaultSecurityManager securityManager(LoginRealm loginRealm,
+                                                  CustomWebSessionManager webSessionManager,
+                                                  HashedCredentialsMatcher hashedCredentialsMatcher) {
         DefaultSecurityManager securityManager = new DefaultWebSecurityManager();
         CredentialsMatcher matcher = hashedCredentialsMatcher;
         SystemConfig.ShiroProperties properties = systemConfig.getShiro();
+
         //配置credentials matcher
         if (properties != null && properties.getCredentialsMatcher() != null) {
             Object o = this.applicationContext.getBean(properties.getCredentialsMatcher());
@@ -84,6 +90,7 @@ public class ShiroConfig {
             }
         }
         loginRealm.setCredentialsMatcher(matcher);
+
         CacheManager cacheManager = this.cacheManager;
         //配置cache manager
         if (properties != null && properties.getCacheManager() != null) {
@@ -97,16 +104,6 @@ public class ShiroConfig {
         securityManager.setCacheManager(cacheManager);
         securityManager.setSessionManager(webSessionManager);
         return securityManager;
-    }
-
-    @Bean
-    public WebSessionManager webSessionManager(RedisSessionDao sessionDao) {
-        DefaultWebSessionManager webSessionManager = new DefaultWebSessionManager();
-        webSessionManager.setSessionDAO(sessionDao);
-        webSessionManager.setSessionIdUrlRewritingEnabled(systemConfig.getSession().getUrlSessionId());
-        webSessionManager.getSessionIdCookie().setName(systemConfig.getSession().getCookieName());
-        webSessionManager.setGlobalSessionTimeout(systemConfig.getSession().getTimeout());
-        return webSessionManager;
     }
 
     /**

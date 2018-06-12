@@ -31,18 +31,20 @@ public class SystemConfig {
 
     @Getter
     @Setter
-    public static class ShiroProperties{
+    public static class ShiroProperties {
         private String cacheManager;
         private String credentialsMatcher;
+        private String sessionDao;
     }
 
     @Getter
     @Setter
-    public static class Session{
+    public static class Session {
         private String cacheKeyPrefix = "JUPITER";
         private String cookieName = "JUPITER";
+        private String headerName = "JUPITER";
         private Boolean urlSessionId = Boolean.FALSE;
-        private long timeout = 60 * 30;
+        private long timeout = 60 * 30 * 1000;
     }
 
 }
