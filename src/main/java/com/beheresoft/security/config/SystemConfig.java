@@ -39,7 +39,8 @@ public class SystemConfig {
     @Getter
     @Setter
     public static class Session{
-        private String cacheKeyPrefix = "JUPITER:";
+        private String cacheKeyPrefix = "JUPITER";
+        private String cookieName = "JUPITER";
         private Boolean urlSessionId = Boolean.FALSE;
         private long timeout = 60 * 30;
     }

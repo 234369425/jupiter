@@ -4,6 +4,7 @@ import com.beheresoft.security.cache.SpringCacheManager;
 import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
 import com.beheresoft.security.filter.CustomFormAuthenticationFilter;
 import com.beheresoft.security.realm.LoginRealm;
+import com.beheresoft.security.session.RedisSessionDao;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -99,9 +100,11 @@ public class ShiroConfig {
     }
 
     @Bean
-    public WebSessionManager webSessionManager() {
+    public WebSessionManager webSessionManager(RedisSessionDao sessionDao) {
         DefaultWebSessionManager webSessionManager = new DefaultWebSessionManager();
+        webSessionManager.setSessionDAO(sessionDao);
         webSessionManager.setSessionIdUrlRewritingEnabled(systemConfig.getSession().getUrlSessionId());
+        webSessionManager.getSessionIdCookie().setName(systemConfig.getSession().getCookieName());
         webSessionManager.setGlobalSessionTimeout(systemConfig.getSession().getTimeout());
         return webSessionManager;
     }
