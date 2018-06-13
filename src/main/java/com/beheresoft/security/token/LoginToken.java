@@ -31,6 +31,7 @@ public class LoginToken implements HostAuthenticationToken, RememberMeAuthentica
         return host;
     }
 
+    @Override
     public boolean isRememberMe() {
         return rememberMe;
     }
