@@ -3,27 +3,26 @@ package com.beheresoft.security.config;
 import com.beheresoft.security.cache.SpringCacheManager;
 import com.beheresoft.security.credentials.RetryLimitHashedCredentialsMatcher;
 import com.beheresoft.security.filter.CustomFormAuthenticationFilter;
+import com.beheresoft.security.realm.CasRealm;
 import com.beheresoft.security.realm.LoginRealm;
-import com.beheresoft.security.session.CustomWebSessionFactory;
 import com.beheresoft.security.session.CustomWebSessionManager;
-import com.beheresoft.security.session.RedisSessionDao;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.Set;
 
 /**
  * @author Aladi
@@ -76,6 +75,7 @@ public class ShiroConfig {
      */
     @Bean
     public DefaultSecurityManager securityManager(LoginRealm loginRealm,
+                                                  CasRealm casRealm,
                                                   CustomWebSessionManager webSessionManager,
                                                   HashedCredentialsMatcher hashedCredentialsMatcher) {
         DefaultSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -100,7 +100,10 @@ public class ShiroConfig {
             }
         }
 //        securityManager.setSubjectFactory(appSubjectFactory);
-        securityManager.setRealm(loginRealm);
+        Set<Realm> realms = new HashSet<>();
+        realms.add(loginRealm);
+        realms.add(casRealm);
+        securityManager.setRealms(realms);
         securityManager.setCacheManager(cacheManager);
         securityManager.setSessionManager(webSessionManager);
         return securityManager;

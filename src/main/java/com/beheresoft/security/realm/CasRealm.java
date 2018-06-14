@@ -1,38 +1,36 @@
 package com.beheresoft.security.realm;
 
 import com.beheresoft.security.service.LoginService;
-import com.beheresoft.security.token.LoginToken;
+import com.beheresoft.security.token.CasToken;
+import io.buji.pac4j.realm.Pac4jRealm;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Aladi on 2018/3/24.
- *
  * @author Aladi
+ * @date 2018-06-14 15:48:49
  */
 @Component
-public class LoginRealm extends AuthorizingRealm {
-
-    private LoginService loginService;
+public class CasRealm extends Pac4jRealm {
 
     @Override
     public boolean supports(AuthenticationToken token) {
-        return token != null && token instanceof LoginToken;
+        return token != null && token instanceof CasToken;
     }
 
-    public LoginRealm(LoginService loginService) {
+    private LoginService loginService;
+
+    public CasRealm(LoginService loginService) {
         this.loginService = loginService;
     }
 
-
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return loginService.doGetAuthorizationInfo(principalCollection);
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        return loginService.doGetAuthorizationInfo(principals);
     }
 
     @Override

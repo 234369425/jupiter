@@ -16,6 +16,7 @@ public class LoginToken implements HostAuthenticationToken, RememberMeAuthentica
 
     private String username;
     private String appId;
+    private String loginType;
     private char[] password;
     private boolean rememberMe;
     private String host;
