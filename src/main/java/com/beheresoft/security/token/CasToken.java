@@ -1,4 +1,7 @@
 package com.beheresoft.security.token;
 
-public class CasToken {
+import org.apache.shiro.authc.HostAuthenticationToken;
+
+public class CasToken extends LoginToken implements HostAuthenticationToken {
+
 }

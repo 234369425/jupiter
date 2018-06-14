@@ -22,7 +22,8 @@ public class LoginRealm extends AuthorizingRealm {
 
     @Override
     public boolean supports(AuthenticationToken token) {
-        return token != null && token instanceof LoginToken;
+        return token != null && token instanceof LoginToken
+                && LoginToken.class.getName().equals(token.getClass().getName());
     }
 
     public LoginRealm(LoginService loginService) {

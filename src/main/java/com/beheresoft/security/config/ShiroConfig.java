@@ -55,6 +55,8 @@ public class ShiroConfig {
         Map<String, String> filterChain = gson.fromJson(systemConfig.getFilterChain(), Map.class);
         filterFactoryBean.setFilterChainDefinitionMap(filterChain);
         filterFactoryBean.getFilters().put("authc", new CustomFormAuthenticationFilter());
+        //filterFactoryBean.getFilters().put("");
+        org.pac4j.cas.config.CasConfiguration
         filterFactoryBean.setLoginUrl(systemConfig.getLoginUrl());
         filterFactoryBean.setUnauthorizedUrl(systemConfig.getUnauthorizedUrl());
         return filterFactoryBean;
@@ -99,7 +101,6 @@ public class ShiroConfig {
                 cacheManager = (CacheManager) o;
             }
         }
-//        securityManager.setSubjectFactory(appSubjectFactory);
         Set<Realm> realms = new HashSet<>();
         realms.add(loginRealm);
         realms.add(casRealm);

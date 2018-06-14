@@ -19,7 +19,8 @@ public class CasRealm extends Pac4jRealm {
 
     @Override
     public boolean supports(AuthenticationToken token) {
-        return token != null && token instanceof CasToken;
+        return token != null && token instanceof CasToken
+                && CasToken.class.getName().equals(token.getClass().getName());
     }
 
     private LoginService loginService;
