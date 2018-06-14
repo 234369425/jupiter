@@ -7,6 +7,7 @@ import com.beheresoft.security.realm.CasRealm;
 import com.beheresoft.security.realm.LoginRealm;
 import com.beheresoft.security.session.CustomWebSessionManager;
 import com.google.gson.Gson;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -29,6 +30,7 @@ import java.util.Set;
  */
 @Configuration
 @Slf4j
+@EqualsAndHashCode
 public class ShiroConfig {
 
     private SystemConfig systemConfig;
@@ -56,7 +58,7 @@ public class ShiroConfig {
         filterFactoryBean.setFilterChainDefinitionMap(filterChain);
         filterFactoryBean.getFilters().put("authc", new CustomFormAuthenticationFilter());
         //filterFactoryBean.getFilters().put("");
-        org.pac4j.cas.config.CasConfiguration
+        //org.pac4j.cas.config.CasConfiguration
         filterFactoryBean.setLoginUrl(systemConfig.getLoginUrl());
         filterFactoryBean.setUnauthorizedUrl(systemConfig.getUnauthorizedUrl());
         return filterFactoryBean;

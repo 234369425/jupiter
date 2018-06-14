@@ -1,4 +1,5 @@
 spring:
+
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/authentication?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
@@ -19,6 +20,7 @@ system:
     timeout: 1800000  #mills
   filterChain: >
     {
+      "/callback": "callback",
       "/api/main/**": "anon",
       "/static/**": "anon" ,
       "/logout":"logout",

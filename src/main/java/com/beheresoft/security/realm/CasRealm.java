@@ -3,6 +3,7 @@ package com.beheresoft.security.realm;
 import com.beheresoft.security.service.LoginService;
 import com.beheresoft.security.token.CasToken;
 import io.buji.pac4j.realm.Pac4jRealm;
+import lombok.EqualsAndHashCode;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @date 2018-06-14 15:48:49
  */
 @Component
+@EqualsAndHashCode
 public class CasRealm extends Pac4jRealm {
 
     @Override

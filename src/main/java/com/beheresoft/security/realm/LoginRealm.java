@@ -2,6 +2,7 @@ package com.beheresoft.security.realm;
 
 import com.beheresoft.security.service.LoginService;
 import com.beheresoft.security.token.LoginToken;
+import lombok.EqualsAndHashCode;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
  * @author Aladi
  */
 @Component
+@EqualsAndHashCode
 public class LoginRealm extends AuthorizingRealm {
 
     private LoginService loginService;
