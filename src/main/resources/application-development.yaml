@@ -1,5 +1,11 @@
 spring:
-
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    mode: HTML
+    suffix: .html
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/authentication?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
@@ -20,13 +26,13 @@ system:
     timeout: 1800000  #mills
   filterChain: >
     {
-      "/callback": "callback",
-      "/api/main/**": "anon",
+      "/api/log/**": "anon",
       "/static/**": "anon" ,
+      "/assets/**": "anon" ,
       "/logout":"logout",
       "/**":"authc"
     }
-  loginUrl: /login
+  loginUrl: /api/log/login
   unauthorizedUrl: /403
 redisson:
   enable: true
@@ -35,4 +41,7 @@ redisson:
   poolSize: 5
   minIdleSize: 3
   database: 6
+logging:
+  level:
+    root: debug
 

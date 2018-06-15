@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.apache.shiro.web.util.SavedRequest;
 import org.redisson.api.RMapCache;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Aladi
@@ -22,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisSessionDao extends AbstractSessionDAO {
 
-    private final RMapCache<Serializable, Session> sessionCache;
+    private final RMapCache<Serializable, CustomSession> sessionCache;
     private final long sessionTimeout;
 
     public RedisSessionDao(RedissonClient redissonClient, SystemConfig systemConfig) {
@@ -67,7 +69,8 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
     @Override
     public Collection<Session> getActiveSessions() {
-        return this.sessionCache.readAllValues();
+        return this.sessionCache.readAllValues().stream()
+                .map(Session.class::cast).collect(Collectors.toList());
     }
 
     private void saveSession(Session session) {
@@ -89,8 +92,8 @@ public class RedisSessionDao extends AbstractSessionDAO {
                 }
             }
         }
-
-        sessionCache.put(session.getId(), session, sessionTimeout, TimeUnit.MILLISECONDS);
+        session.setAttribute("shiroSavedRequest", null);
+        sessionCache.put(session.getId(), (CustomSession) session, sessionTimeout, TimeUnit.MILLISECONDS);
     }
 
 }

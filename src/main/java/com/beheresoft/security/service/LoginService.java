@@ -44,9 +44,8 @@ public class LoginService {
         return authorizationInfo;
     }
 
-    public AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken, String name) {
-        LoginToken token = (LoginToken) authenticationToken;
-        User user = userService.findUser(token.getAppId(), token.getUsername());
+    public AuthenticationInfo doGetAuthenticationInfo(String appId, String username, String realmName) {
+        User user = userService.findUser(appId, username);
         if (user == null) {
             throw new UnknownAccountException();
         }
@@ -60,7 +59,7 @@ public class LoginService {
                 principal,
                 user.getPassword(),
                 ByteSource.Util.bytes(user.getCredentialsSalt()),
-                name);
+                realmName);
         return authenticationInfo;
     }
 

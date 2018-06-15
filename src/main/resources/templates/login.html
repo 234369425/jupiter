@@ -1,0 +1,46 @@
+<!doctype html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/assets/bulma.min.css">
+    <title>登陆</title>
+</head>
+<body>
+<div class="navbar"></div>
+<div class="container">
+    <form action="/api/log/login" method="post">
+        <article class="message is-success">
+            <div class="message-header">
+                <p>用户登陆</p>
+            </div>
+            <div class="message-body">
+                <div class="field">
+                    <div class="control">
+                        <input required class="input is-primary" name="appId" th:value="${param.appId}" type="text">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input required class="input is-primary" name="username" th:value="${param.username}" type="text"
+                               placeholder="用户名">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input required class="input is-primary" name="password" type="password" placeholder="密码">
+                    </div>
+                </div>
+                <button type="submit" class="button is-success is-focused"> 登 陆 </button>
+            </div>
+        </article>
+    </form>
+</div>
+<div class="footer"></div>
+</body>
+<script src="/assets/zepto.min.js" async></script>
+<script>
+
+</script>
+</html>

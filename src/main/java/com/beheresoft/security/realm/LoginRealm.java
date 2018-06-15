@@ -40,6 +40,7 @@ public class LoginRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        return loginService.doGetAuthenticationInfo(authenticationToken, getName());
+        LoginToken loginToken = (LoginToken) authenticationToken;
+        return loginService.doGetAuthenticationInfo(loginToken.getAppId(), loginToken.getUsername(), getName());
     }
 }
