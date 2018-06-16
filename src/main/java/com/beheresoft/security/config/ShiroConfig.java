@@ -7,6 +7,7 @@ import com.beheresoft.security.realm.CasRealm;
 import com.beheresoft.security.realm.LoginRealm;
 import com.beheresoft.security.session.CustomWebSessionManager;
 import com.google.gson.Gson;
+import io.buji.pac4j.filter.CallbackFilter;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -51,12 +52,13 @@ public class ShiroConfig {
      * @return FilterFactoryBean
      */
     @Bean
-    public ShiroFilterFactoryBean shiroFilters(SecurityManager securityManager, Gson gson) {
+    public ShiroFilterFactoryBean shiroFilters(SecurityManager securityManager, CallbackFilter callbackFilter, Gson gson) {
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
         filterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChain = gson.fromJson(systemConfig.getFilterChain(), Map.class);
         filterFactoryBean.setFilterChainDefinitionMap(filterChain);
         filterFactoryBean.getFilters().put("authc", new CustomFormAuthenticationFilter());
+        filterFactoryBean.getFilters().put("callbackFilter", callbackFilter);
         //filterFactoryBean.getFilters().put("");
         //org.pac4j.cas.config.CasConfiguration
         filterFactoryBean.setLoginUrl(systemConfig.getLoginUrl());

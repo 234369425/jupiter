@@ -26,6 +26,7 @@ system:
     timeout: 1800000  #mills
   filterChain: >
     {
+      "/callback" : "callback",
       "/api/log/**": "anon",
       "/static/**": "anon" ,
       "/assets/**": "anon" ,
